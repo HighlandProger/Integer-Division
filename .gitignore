@@ -6,5 +6,6 @@
 /dataSources.local.xml
 /.idea
 /*.iml
+/target
 # Editor-based HTTP Client requests
 /httpRequests/
