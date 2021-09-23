@@ -37,43 +37,52 @@ public class NumberDivisor {
         return spaces;
     }
 
-    private void printHead() {
+    private String headOfDivision() {
         String firstString = "_" + divisible + "|" + divisor;
         String secondString = " " + divisor + addSpacesToLine(String.valueOf(divisor)) + "|-----";
+        int firstDigit = divisibleDigits[0];
 
         if (divisibleDigits[0] < divisor) {
-            int secondStringDivisible = addNextDigit(divisibleDigits[0], 0);
+            int secondStringDivisible = addNextDigit(firstDigit, 0);
+            int secondStringNumber = secondStringDivisible - secondStringDivisible % divisor;
+            secondString = " " + secondStringNumber + addSpacesToLine(String.valueOf(secondStringNumber)) + "|-----";
+        }
+
+        if (firstDigit / divisor >= 2) {
+            int secondStringDivisible = divisibleDigits[0];
             int secondStringNumber = secondStringDivisible - secondStringDivisible % divisor;
             secondString = " " + secondStringNumber + addSpacesToLine(String.valueOf(secondStringNumber)) + "|-----";
         }
 
         String thirdString = " -" + addSpacesToLine("-") + "|" + divisible / divisor;
-        String result = firstString + "\n" + secondString + "\n" + thirdString;
-        System.out.println(result);
+        return firstString + "\n" + secondString + "\n" + thirdString + "\n";
     }
 
-    private void printTail() {
+    private String tailOfDivision() {
 
         int firstDigit = divisibleDigits[0];
         int nextDivisible = firstDigit;
+
+
+        String resultTailString = "";
 
         for (int digitCount = 0; digitCount < divisibleDigits.length - 1; digitCount++) {
 
             if (firstDigit > divisor) {
 
-                if (nextDivisible % divisor < divisor && digitCount == 0) {
+                if (digitCount == 0) {
                     nextDivisible = nextDivisible % divisor;
                     nextDivisible = addNextDigit(nextDivisible, digitCount);
-                    printBlock(nextDivisible, divisor, digitCount);
+                    resultTailString += getStringBlock(nextDivisible, divisor, digitCount);
                     nextDivisible = nextDivisible % divisor;
                     continue;
                 }
                 nextDivisible = addNextDigit(nextDivisible, digitCount);
-                printBlock(nextDivisible, divisor, digitCount);
+                resultTailString += getStringBlock(nextDivisible, divisor, digitCount);
                 nextDivisible = nextDivisible % divisor;
 
                 if (digitCount == divisibleDigits.length - 2) {
-                    printLastBlock(digitCount, nextDivisible);
+                    resultTailString += getLastBlockString(digitCount, nextDivisible);
                 }
             }
 
@@ -83,14 +92,18 @@ public class NumberDivisor {
                     nextDivisible = addNextDigit(nextDivisible, digitCount);
                     nextDivisible = nextDivisible % divisor;
                     digitCount++;
+                    nextDivisible = addNextDigit(nextDivisible, digitCount);
+                    resultTailString += getStringBlock(nextDivisible, divisor, digitCount);
+                    nextDivisible = nextDivisible % divisor;
+                    continue;
                 }
 
                 nextDivisible = addNextDigit(nextDivisible, digitCount);
-                printBlock(nextDivisible, divisor, digitCount);
+                resultTailString += getStringBlock(nextDivisible, divisor, digitCount);
                 nextDivisible = nextDivisible % divisor;
 
                 if (digitCount == divisibleDigits.length - 2) {
-                    printLastBlock(digitCount, nextDivisible);
+                    resultTailString += getLastBlockString(digitCount, nextDivisible);
                 }
 
             }
@@ -99,21 +112,22 @@ public class NumberDivisor {
 
                 if (digitCount == 0) {
                     nextDivisible = divisibleDigits[1];
-                    printBlock(nextDivisible, divisor, digitCount + 1);
+                    resultTailString += getStringBlock(nextDivisible, divisor, digitCount + 1);
                     nextDivisible = nextDivisible % divisor;
                     continue;
                 }
 
                 nextDivisible = addNextDigit(nextDivisible, digitCount);
-                printBlock(nextDivisible, divisor, digitCount + 1);
+                resultTailString += getStringBlock(nextDivisible, divisor, digitCount + 1);
                 nextDivisible = nextDivisible % divisor;
 
                 if (digitCount == divisibleDigits.length - 2) {
-                    printLastBlock(digitCount + 1, nextDivisible);
+                    resultTailString += getLastBlockString(digitCount + 1, nextDivisible);
                 }
             }
 
         }
+        return resultTailString;
     }
 
     private int addNextDigit(int digit, int digitCount) {
@@ -121,22 +135,19 @@ public class NumberDivisor {
         return Integer.parseInt("" + digit + digits[digitCount + 1]);
     }
 
-    private void printBlock(int nextDivisible, int divisor, int digitCount) {
+    private String getStringBlock(int nextDivisible, int divisor, int digitCount) {
         String firstBlockLine = addSpaces(digitCount) + "_" + nextDivisible;
         String secondBlockLine = addSpaces(digitCount + 1) + (nextDivisible - nextDivisible % divisor);
         String thirdBlockLine = addSpaces(digitCount + 1) + "--";
-        String result = firstBlockLine + "\n" + secondBlockLine + "\n" + thirdBlockLine;
-        System.out.println(result);
+        return firstBlockLine + "\n" + secondBlockLine + "\n" + thirdBlockLine + "\n";
     }
 
-    private void printLastBlock(int digitCount, int nextDivisible) {
-        String lastBlock = addSpaces(digitCount + 2) + nextDivisible;
-        System.out.print(lastBlock);
+    private String getLastBlockString(int digitCount, int nextDivisible) {
+        return addSpaces(digitCount + 2) + nextDivisible;
     }
 
-    public void printDivide() {
-        printHead();
-        printTail();
+    public String divisionString() {
+        return headOfDivision() + tailOfDivision();
     }
 
 }
