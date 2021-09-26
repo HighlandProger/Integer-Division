@@ -4,8 +4,7 @@ public class IntegerDivision {
 
     public static void main(String[] args) {
 
-        NumberDivisor numberDivisor = new NumberDivisor(98344, 4);
+        NumberDivisor numberDivisor = new NumberDivisor(-94532, 4);
 
-        System.out.println(numberDivisor.divisionString());
     }
 }

@@ -6,10 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NumberDivisorTest {
 
+    NumberDivisor divisor = new NumberDivisor(1, 1);
+
     @Test
     void divisionString_firstLineStartsFromDivisibleAndDivisorNumbers() {
-        NumberDivisor divisor = new NumberDivisor(24532, 5);
-        String fullString = divisor.divisionString();
+        String fullString = divisor.getDivisionString(24532, 5);
 
         String expectedString = "_24532|5";
         String actualString = fullString.substring(0, fullString.indexOf("\n"));
@@ -18,8 +19,7 @@ class NumberDivisorTest {
 
     @Test
     void divisionString_secondLineStartsFromNumberMultipleOfDivisor_whenFirstDigitOfDivisibleIsLessThanDivisor() {
-        NumberDivisor divisor = new NumberDivisor(24532, 5);
-        String fullString = divisor.divisionString();
+        String fullString = divisor.getDivisionString(24532, 5);
 
         String expectedString = " 20   |";
         String actualString = fullString.substring(fullString.indexOf("\n") + 1, fullString.indexOf("-"));
@@ -28,8 +28,7 @@ class NumberDivisorTest {
 
     @Test
     void divisionString_secondLineStartsFromNumberMultipleOfDivisor_whenFirstDigitOfDivisibleEqualsDivisor() {
-        NumberDivisor divisor = new NumberDivisor(54532, 5);
-        String fullString = divisor.divisionString();
+        String fullString = divisor.getDivisionString(54532, 5);
 
         String expectedString = " 5    |";
         String actualString = fullString.substring(fullString.indexOf("\n") + 1, fullString.indexOf("-"));
@@ -38,8 +37,7 @@ class NumberDivisorTest {
 
     @Test
     void divisionString_secondLineStartsFromNumberMultipleOfDivisor_whenFirstDigitOfDivisibleMoreThanDivisor() {
-        NumberDivisor divisor = new NumberDivisor(74532, 5);
-        String fullString = divisor.divisionString();
+        String fullString = divisor.getDivisionString(74532, 5);
 
         String expectedString = " 5    |";
         String actualString = fullString.substring(fullString.indexOf("\n") + 1, fullString.indexOf("-"));
@@ -47,12 +45,48 @@ class NumberDivisorTest {
     }
 
     @Test
+    void divisionString_secondLineHaveCorrectTabulation_whenDivisibleIsNegative() {
+        String fullString = divisor.getDivisionString(-94532, 4);
+
+        String expectedString = "  8    |";
+        String actualString = fullString.substring(fullString.indexOf("\n") + 1, fullString.indexOf("-", 10));
+        assertEquals(expectedString, actualString);
+    }
+
+    @Test
     void divisionString_secondLineStartsFromNumberMultipleOfDivisor_whenFirstDigitOfDivisibleDoubleMoreThanDivisor() {
-        NumberDivisor divisor = new NumberDivisor(94532, 4);
-        String fullString = divisor.divisionString();
+        String fullString = divisor.getDivisionString(94532, 4);
 
         String expectedString = " 8    |";
         String actualString = fullString.substring(fullString.indexOf("\n") + 1, fullString.indexOf("-"));
         assertEquals(expectedString, actualString);
     }
+
+    @Test
+    void divisionString_thirdLineContainsResultOfDivision() {
+        String fullString = divisor.getDivisionString(-94532, 4);
+
+        String expectedString = " -     |-23633";
+        String actualString = fullString.substring(fullString.indexOf("\n", 11) + 1, fullString.indexOf("\n", 25));
+        assertEquals(expectedString, actualString);
+    }
+
+    @Test
+    void divisionString_theLastLineContainsCorrectSurplus(){
+        String fullString = divisor.getDivisionString(94532, 4);
+
+        String expectedString = "0";
+        String actualString = fullString.substring(fullString.lastIndexOf(" ") + 1);
+        assertEquals(expectedString, actualString);
+    }
+
+    @Test
+    void divisionString_theLastLineContainsCorrectSurplus2(){
+        String fullString = divisor.getDivisionString(74535, 4);
+
+        String expectedString = "3";
+        String actualString = fullString.substring(fullString.lastIndexOf(" ") + 1);
+        assertEquals(expectedString, actualString);
+    }
+
 }
