@@ -4,4 +4,4 @@
 
 This program divides integers.
 ***
-To test it create IntegerDivision object with 2 parameters (divisible, divisor) in ua.com.foxminded.NumberDivisor class
+To test it input your numbers into variables "divisible" and "divisor" in ua.com.foxminded.NumberDivisor class

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NumberDivisorTest {
 
-    NumberDivisor divisor = new NumberDivisor(1, 1);
+    NumberDivisor divisor = new NumberDivisor();
 
     @Test
     void divisionString_firstLineStartsFromDivisibleAndDivisorNumbers() {
