@@ -1,9 +1,5 @@
 package ua.com.foxminded;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class NumberDivisor {
 
     static final String NEXT_LINE = "\n";
@@ -16,17 +12,16 @@ public class NumberDivisor {
 
         int absDivisible = Math.abs(divisible);
         int absDivisor = Math.abs(divisor);
-        boolean isDivisibleNegative = divisible < 0;
 
-        return getHeadOfDivision(divisible, absDivisible, divisor, absDivisor, isDivisibleNegative)
-            .append(getTailOfDivision(absDivisible, absDivisor, isDivisibleNegative)).toString();
+        return getHeadOfDivision(absDivisible, absDivisor)
+            .append(getTailOfDivision(absDivisible, absDivisor)).toString();
     }
 
-    private StringBuilder getHeadOfDivision(int divisible, int absDivisible, int divisor, int absDivisor, boolean isDivisibleNegative) {
+    private StringBuilder getHeadOfDivision(int absDivisible, int absDivisor) {
 
-        StringBuilder firstString = getFirstString(divisible, divisor);
-        StringBuilder secondString = getSecondString(absDivisible, absDivisor, isDivisibleNegative);
-        StringBuilder thirdString = getThirdString(divisible, divisor);
+        StringBuilder firstString = getFirstString(absDivisible, absDivisor);
+        StringBuilder secondString = getSecondString(absDivisible, absDivisor);
+        StringBuilder thirdString = getThirdString(absDivisible, absDivisor);
 
         return firstString.append(NEXT_LINE).append(secondString + NEXT_LINE).append(thirdString + NEXT_LINE);
     }
@@ -37,18 +32,13 @@ public class NumberDivisor {
         return firstString;
     }
 
-    private StringBuilder getSecondString(int absDivisible, int absDivisor, boolean isDivisibleNegative) {
+    private StringBuilder getSecondString(int absDivisible, int absDivisor) {
 
         StringBuilder secondString = new StringBuilder(" ");
 
         int firstDigit = getDigitsFromNumber(absDivisible)[0];
         int nextDivisible;
         int secondStringNumber = absDivisor;
-
-
-        if (isDivisibleNegative) {
-            secondString.append(" ");
-        }
 
         if (firstDigit < absDivisor) {
             nextDivisible = addNextDigit(firstDigit, 0, absDivisible);
@@ -67,14 +57,14 @@ public class NumberDivisor {
         return secondString;
     }
 
-    private StringBuilder getThirdString(int divisible, int divisor) {
+    private StringBuilder getThirdString(int absDivisible, int absDivisor) {
         StringBuilder thirdString = new StringBuilder(" -");
-        thirdString.append(addSpacesToLine("-", divisible))
-            .append("|").append(divisible / divisor);
+        thirdString.append(addSpacesToLine("-", absDivisible))
+            .append("|").append(absDivisible / absDivisor);
         return thirdString;
     }
 
-    private StringBuilder getTailOfDivision(int absDivisible, int absDivisor, boolean isDivisibleNegative) {
+    private StringBuilder getTailOfDivision(int absDivisible, int absDivisor) {
 
         int[] divisibleDigits = getDigitsFromNumber(absDivisible);
         int firstDigit = divisibleDigits[0];
@@ -88,13 +78,13 @@ public class NumberDivisor {
 
                 if (isFirstIteration(digitCount)) {
                     nextDivisible = divisibleDigits[1];
-                    addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount + 1, isDivisibleNegative);
+                    addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount + 1);
                     nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
                     continue;
                 }
 
                 nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
-                addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount + 1, isDivisibleNegative);
+                addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount + 1);
                 nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
 
                 if (digitCount == divisibleDigits.length - 2) {
@@ -107,7 +97,7 @@ public class NumberDivisor {
 
                 if (isFirstIteration(digitCount)) {
                     nextDivisible = missTheFirstBlock(nextDivisible, absDivisor, digitCount, absDivisible);
-                    addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount, isDivisibleNegative);
+                    addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount);
                     nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
                     continue;
                 }
@@ -120,18 +110,18 @@ public class NumberDivisor {
                     digitCount++;
                     nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
                     nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
-                    addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount, isDivisibleNegative);
+                    addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount);
                     nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
                     continue;
                 }
 
             }
             nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
-            addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount, isDivisibleNegative);
+            addNextStringBlock(resultTailString, nextDivisible, absDivisor, digitCount);
             nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
 
             if (isLastIteration(digitCount, divisibleDigits)) {
-                addLastBlockString(resultTailString, digitCount, nextDivisible, isDivisibleNegative);
+                addLastBlockString(resultTailString, digitCount, nextDivisible);
             }
 
         }
@@ -148,20 +138,18 @@ public class NumberDivisor {
 
     private int[] getDigitsFromNumber(int number) {
 
-        List<Integer> digitsList = new ArrayList<>();
+        int digitsCount = getDigitsCount(number);
+        int[] digits = new int[digitsCount];
 
-        for (int a = number; a > 0; a /= 10) {
-            digitsList.add(a % 10);
+        for (int remainder = number, i = digitsCount - 1; remainder > 0; remainder /= 10, i--) {
+            digits[i] = remainder % 10;
         }
 
-        Collections.reverse(digitsList);
+        return digits;
+    }
 
-        int[] digitsArray = new int[digitsList.size()];
-        for (int i = 0; i < digitsList.size(); i++) {
-            digitsArray[i] = digitsList.get(i);
-        }
-
-        return digitsArray;
+    private int getDigitsCount(int number) {
+        return (int) (Math.log10(number) + 1);
     }
 
     private String addSpacesToLine(String firstSymbol, int divisible) {
@@ -188,17 +176,11 @@ public class NumberDivisor {
         return nextDivisible % divisor;
     }
 
-    private void addNextStringBlock(StringBuilder resultTailString, int nextDivisible, int divisor, int digitCount, boolean needExtraSpace) {
-        if (needExtraSpace) {
-            digitCount++;
-        }
+    private void addNextStringBlock(StringBuilder resultTailString, int nextDivisible, int divisor, int digitCount) {
         resultTailString.append(getStringBlock(nextDivisible, divisor, digitCount));
     }
 
-    private void addLastBlockString(StringBuilder resultTailString, int digitCount, int nextDivisible, boolean needExtraSpace) {
-        if (needExtraSpace) {
-            digitCount++;
-        }
+    private void addLastBlockString(StringBuilder resultTailString, int digitCount, int nextDivisible) {
         resultTailString.append(getLastBlockString(digitCount, nextDivisible));
     }
 

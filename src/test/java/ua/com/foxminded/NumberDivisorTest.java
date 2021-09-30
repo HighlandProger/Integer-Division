@@ -48,7 +48,7 @@ class NumberDivisorTest {
     void divisionString_secondLineHaveCorrectTabulation_whenDivisibleIsNegative() {
         String fullString = divisor.getDivisionString(-94532, 4);
 
-        String expectedString = "  8    |";
+        String expectedString = " 8    |";
         String actualString = fullString.substring(fullString.indexOf("\n") + 1, fullString.indexOf("-", 10));
         assertEquals(expectedString, actualString);
     }
@@ -63,10 +63,10 @@ class NumberDivisorTest {
     }
 
     @Test
-    void divisionString_thirdLineContainsResultOfDivision() {
+    void divisionString_thirdLineContainsResultOfDivision_whenOneOfNumbersIsNegative() {
         String fullString = divisor.getDivisionString(-94532, 4);
 
-        String expectedString = " -     |-23633";
+        String expectedString = " -    |23633";
         String actualString = fullString.substring(fullString.indexOf("\n", 11) + 1, fullString.indexOf("\n", 25));
         assertEquals(expectedString, actualString);
     }
