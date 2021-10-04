@@ -72,7 +72,7 @@ class NumberDivisorTest {
     }
 
     @Test
-    void divisionString_theLastLineContainsCorrectSurplus(){
+    void divisionString_theLastLineContainsCorrectSurplus() {
         String fullString = divisor.getDivisionString(94532, 4);
 
         String expectedString = "0";
@@ -81,7 +81,7 @@ class NumberDivisorTest {
     }
 
     @Test
-    void divisionString_theLastLineContainsCorrectSurplus2(){
+    void divisionString_theLastLineContainsCorrectSurplus2() {
         String fullString = divisor.getDivisionString(74535, 4);
 
         String expectedString = "3";

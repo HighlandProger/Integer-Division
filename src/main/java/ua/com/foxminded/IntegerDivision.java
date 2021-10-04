@@ -4,12 +4,11 @@ public class IntegerDivision {
 
     public static void main(String[] args) {
 
-        int divisible = 54532;
-        int divisor = -6;
+        int divisible = 42296834;
+        int divisor = 500;
 
         NumberDivisor numberDivisor = new NumberDivisor();
 
         System.out.println(numberDivisor.getDivisionString(divisible, divisor));
-
     }
 }
