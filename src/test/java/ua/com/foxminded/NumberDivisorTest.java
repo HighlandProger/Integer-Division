@@ -89,4 +89,16 @@ class NumberDivisorTest {
         assertEquals(expectedString, actualString);
     }
 
+    @Test
+    void addNextDigit_shouldAddNextDigitToPartOfNumberByDigitCount(){
+        int fullNumber = 489342;
+        int partOfNumber = 934;
+        int digitCount = 5;
+
+        int expectedNumber = 9342;
+        int actualNumber = divisor.addNextDigit(partOfNumber, digitCount, fullNumber);
+
+        assertEquals(expectedNumber, actualNumber);
+    }
+
 }

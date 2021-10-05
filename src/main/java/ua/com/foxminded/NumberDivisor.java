@@ -40,17 +40,23 @@ public class NumberDivisor {
 
     private StringBuilder getSecondString(int absDivisible, int absDivisor) {
 
-        int nextDivisible = getDigitsFromNumber(absDivisible, getDigitsCount(absDivisor));
+        int divisorLength = getDigitsCount(absDivisor);
+        int nextDivisible = getDigitsFromNumber(absDivisible, divisorLength);
         int secondNumber;
 
-        if (nextDivisible < absDivisor) {
-            nextDivisible = addNextDigit(nextDivisible, 0, absDivisible);
-        }
+        if (absDivisible >= absDivisor) {
+            if (nextDivisible < absDivisor) {
+                nextDivisible = addNextDigit(nextDivisible, divisorLength, absDivisible);
+            }
 
-        if (nextDivisible / absDivisor >= 2) {
-            secondNumber = nextDivisible - nextDivisible % absDivisor;
+
+            if (nextDivisible / absDivisor >= 2) {
+                secondNumber = nextDivisible - nextDivisible % absDivisor;
+            } else {
+                secondNumber = absDivisor;
+            }
         } else {
-            secondNumber = absDivisor;
+            secondNumber = 0;
         }
 
         StringBuilder secondString = new StringBuilder(" ");
@@ -77,14 +83,16 @@ public class NumberDivisor {
         int digitCount = 0;
         int spaceCount = 0;
 
-        outer:
         for (int iterator = 0; digitCount < getDigitsCount(absDivisible); iterator++) {
+
+            if (digitCount == getDigitsCount(absDivisible)) {
+                break;
+            }
 
             while (nextDivisible < absDivisor) {
 
                 if (digitCount == getDigitsCount(absDivisible)) {
-                    spaceCount = digitCount - getDigitsCount(nextDivisible) - 1;
-                    break outer;
+                    break;
                 }
                 nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
                 digitCount++;
@@ -100,7 +108,7 @@ public class NumberDivisor {
             nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
         }
 
-        addLastBlockString(resultTailString, spaceCount + 2, nextDivisible);
+        addLastBlockString(resultTailString, absDivisible, nextDivisible);
 
         return resultTailString;
     }
@@ -130,6 +138,10 @@ public class NumberDivisor {
 
         int[] digits = getDigitsArrayFromNumber(number);
         int partOfNumber = digits[0];
+
+        if (digits.length < countOfDigits) {
+            countOfDigits = digits.length;
+        }
 
         for (int i = 1; i < countOfDigits; i++) {
             partOfNumber = partOfNumber * 10 + digits[i];
@@ -163,11 +175,11 @@ public class NumberDivisor {
         resultTailString.append(getStringBlock(nextDivisible, divisor, digitCount));
     }
 
-    private void addLastBlockString(StringBuilder resultTailString, int digitCount, int nextDivisible) {
-        resultTailString.append(getLastBlockString(digitCount, nextDivisible));
+    private void addLastBlockString(StringBuilder resultTailString, int absDivisible, int nextDivisible) {
+        resultTailString.append(getLastBlockString(absDivisible, nextDivisible));
     }
 
-    private int addNextDigit(int digit, int digitCount, int divisible) {
+    protected int addNextDigit(int digit, int digitCount, int divisible) {
 
         int[] digits = getDigitsArrayFromNumber(divisible);
         if (digitCount > digits.length - 1) {
@@ -184,8 +196,18 @@ public class NumberDivisor {
         return firstBlockLine + NEXT_LINE + secondBlockLine + NEXT_LINE + thirdBlockLine + NEXT_LINE;
     }
 
-    private String getLastBlockString(int digitCount, int nextDivisible) {
-        return addSpaces(digitCount) + nextDivisible;
+    private String getLastBlockString(int absDivisible, int nextDivisible) {
+
+        int absDivisibleLength = getDigitsCount(absDivisible);
+        int nextDivisibleLength = getDigitsCount(nextDivisible);
+
+        if (nextDivisible == 0) {
+            nextDivisibleLength = 1;
+        }
+
+        int resultLength = absDivisibleLength - nextDivisibleLength + 1;
+
+        return addSpaces(resultLength) + nextDivisible;
     }
 
 }

@@ -4,8 +4,8 @@ public class IntegerDivision {
 
     public static void main(String[] args) {
 
-        int divisible = 42296834;
-        int divisor = 500;
+        int divisible = 3345432;
+        int divisor = 523;
 
         NumberDivisor numberDivisor = new NumberDivisor();
 
