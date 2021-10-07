@@ -40,24 +40,21 @@ public class NumberDivisor {
 
     private StringBuilder getSecondString(int absDivisible, int absDivisor) {
 
-        int divisorLength = getDigitsCount(absDivisor);
-        int nextDivisible = getDigitsFromNumber(absDivisible, divisorLength);
+        int divisibleDigitsCount = getDigitsCount(absDivisible);
+        int nextDivisible = 0;
+        int digitCount = 0;
         int secondNumber;
 
-        if (absDivisible >= absDivisor) {
-            if (nextDivisible < absDivisor) {
-                nextDivisible = addNextDigit(nextDivisible, divisorLength, absDivisible);
-            }
+        while (nextDivisible < absDivisor) {
 
-
-            if (nextDivisible / absDivisor >= 2) {
-                secondNumber = nextDivisible - nextDivisible % absDivisor;
-            } else {
-                secondNumber = absDivisor;
+            if (digitCount == divisibleDigitsCount) {
+                break;
             }
-        } else {
-            secondNumber = 0;
+            nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
+            digitCount++;
         }
+
+        secondNumber = nextDivisible - nextDivisible % absDivisor;
 
         StringBuilder secondString = new StringBuilder(" ");
         secondString.append(secondNumber);
@@ -82,30 +79,27 @@ public class NumberDivisor {
         int nextDivisible = 0;
         int digitCount = 0;
         int spaceCount = 0;
+        int divisibleDigitsCount = getDigitsCount(absDivisible);
 
-        for (int iterator = 0; digitCount < getDigitsCount(absDivisible); iterator++) {
-
-            if (digitCount == getDigitsCount(absDivisible)) {
-                break;
-            }
+        for (int i = 0; digitCount < divisibleDigitsCount; i++) {
 
             while (nextDivisible < absDivisor) {
 
-                if (digitCount == getDigitsCount(absDivisible)) {
+                if (digitCount == divisibleDigitsCount) {
                     break;
                 }
                 nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
                 digitCount++;
             }
 
-            if (isFirstIteration(iterator)) {
-                nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
+            if (i == 0) {
+                nextDivisible = nextDivisible % absDivisor;
                 spaceCount++;
                 continue;
             }
             spaceCount = digitCount - getDigitsCount(nextDivisible);
             addNextStringBlock(resultTailString, nextDivisible, absDivisor, spaceCount);
-            nextDivisible = getSurplusFromDivision(nextDivisible, absDivisor);
+            nextDivisible = nextDivisible % absDivisor;
         }
 
         addLastBlockString(resultTailString, absDivisible, nextDivisible);
@@ -134,22 +128,6 @@ public class NumberDivisor {
         return digits;
     }
 
-    public int getDigitsFromNumber(int number, int countOfDigits) {
-
-        int[] digits = getDigitsArrayFromNumber(number);
-        int partOfNumber = digits[0];
-
-        if (digits.length < countOfDigits) {
-            countOfDigits = digits.length;
-        }
-
-        for (int i = 1; i < countOfDigits; i++) {
-            partOfNumber = partOfNumber * 10 + digits[i];
-        }
-
-        return partOfNumber;
-    }
-
     private int getDigitsCount(int number) {
         return (int) (Math.log10(number) + 1);
     }
@@ -161,14 +139,6 @@ public class NumberDivisor {
         int lengthDifference = divisibleInString.length() - firstSymbol.length();
         spaces = addSpaces(lengthDifference);
         return spaces;
-    }
-
-    private boolean isFirstIteration(int digitCount) {
-        return digitCount == 0;
-    }
-
-    private int getSurplusFromDivision(int nextDivisible, int divisor) {
-        return nextDivisible % divisor;
     }
 
     private void addNextStringBlock(StringBuilder resultTailString, int nextDivisible, int divisor, int digitCount) {
