@@ -5,7 +5,7 @@ public class IntegerDivision {
     public static void main(String[] args) {
 
         int divisible = 24532;
-        int divisor = 1;
+        int divisor = 23;
 
         NumberDivisor numberDivisor = new NumberDivisor();
 
