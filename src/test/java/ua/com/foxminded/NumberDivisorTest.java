@@ -90,7 +90,18 @@ class NumberDivisorTest {
     }
 
     @Test
-    void addNextDigit_shouldAddNextDigitToPartOfNumberByDigitCount(){
+    void divisionString_firstLineOfTailDivisionHasSomeSpacesAndNextDivisible() {
+        String fullString = divisor.getDivisionString(24532, 23);
+        int secondLowerSpaceIndex = fullString.indexOf("_", 1);
+
+        String expectedString = " _153";
+        String actualString = fullString.substring(secondLowerSpaceIndex - 1, secondLowerSpaceIndex + 4);
+
+        assertEquals(expectedString, actualString);
+    }
+
+    @Test
+    void addNextDigit_shouldAddNextDigitToPartOfNumberByDigitCount() {
         int fullNumber = 489342;
         int partOfNumber = 934;
         int digitCount = 5;

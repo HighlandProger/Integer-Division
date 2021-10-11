@@ -25,7 +25,7 @@ public class NumberDivisor {
         StringBuilder thirdString = buildThirdString(absDivisible, absDivisor);
         return new IntermediateDivisionResult(
             secondDivisionResult.getRemainder(),
-            secondDivisionResult.getRemainder(),
+            secondDivisionResult.getLastDigit(),
             firstString
                 .append(NEXT_LINE)
                 .append(secondDivisionResult.getDivisionString())
@@ -44,12 +44,9 @@ public class NumberDivisor {
 
     private IntermediateDivisionResult buildSecondString(int absDivisible, int absDivisor) {
 
-        StringBuilder secondString = new StringBuilder(" ");
-
         int divisibleDigitsCount = getDigitsCount(absDivisible);
         int nextDivisible = 0;
         int digitCount = 0;
-        int secondNumber;
 
         while (nextDivisible < absDivisor) {
 
@@ -59,10 +56,13 @@ public class NumberDivisor {
             nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
             digitCount++;
         }
+
         int remainder = nextDivisible % absDivisor;
-        secondNumber = nextDivisible - remainder;
+        int secondNumber = nextDivisible - remainder;
+        StringBuilder secondString = new StringBuilder(" ");
+
         secondString.append(secondNumber);
-        secondString.append(addSpacesToLine(String.valueOf(secondNumber), absDivisible));
+        secondString.append(addSpaces(divisibleDigitsCount - getDigitsCount(secondNumber)));
         secondString.append("|-----");
 
         return new IntermediateDivisionResult(remainder, digitCount, secondString);
@@ -71,7 +71,7 @@ public class NumberDivisor {
     private StringBuilder buildThirdString(int absDivisible, int absDivisor) {
 
         StringBuilder thirdString = new StringBuilder(" -");
-        thirdString.append(addSpacesToLine("-", absDivisible))
+        thirdString.append(addSpaces(getDigitsCount(absDivisible) - 1))
             .append("|").append(absDivisible / absDivisor);
         return thirdString;
     }
@@ -97,11 +97,11 @@ public class NumberDivisor {
             }
 
             spaceCount = digitCount - getDigitsCount(nextDivisible);
-            addNextStringBlock(resultTailString, nextDivisible, absDivisor, spaceCount);
+            resultTailString.append(getNextDivisionBlock(nextDivisible, absDivisor, spaceCount));
             nextDivisible = nextDivisible % absDivisor;
         }
 
-        addLastBlockString(resultTailString, absDivisible, nextDivisible);
+        resultTailString.append(getLastDivisionBlock(absDivisible, nextDivisible));
 
         return resultTailString;
     }
@@ -131,23 +131,6 @@ public class NumberDivisor {
         return (int) (Math.log10(number) + 1);
     }
 
-    protected String addSpacesToLine(String firstSymbol, int divisible) {
-
-        String spaces;
-        String divisibleInString = String.valueOf(divisible);
-        int lengthDifference = divisibleInString.length() - firstSymbol.length();
-        spaces = addSpaces(lengthDifference);
-        return spaces;
-    }
-
-    private void addNextStringBlock(StringBuilder resultTailString, int nextDivisible, int divisor, int digitCount) {
-        resultTailString.append(getStringBlock(nextDivisible, divisor, digitCount));
-    }
-
-    private void addLastBlockString(StringBuilder resultTailString, int absDivisible, int nextDivisible) {
-        resultTailString.append(getLastBlockString(absDivisible, nextDivisible));
-    }
-
     protected int addNextDigit(int digit, int digitCount, int divisible) {
 
         int[] digits = getDigitsArrayFromNumber(divisible);
@@ -157,15 +140,15 @@ public class NumberDivisor {
         return (digit * 10) + digits[digitCount];
     }
 
-    private String getStringBlock(int nextDivisible, int divisor, int digitCount) {
+    private String getNextDivisionBlock(int nextDivisible, int divisor, int spaceCount) {
 
-        String firstBlockLine = addSpaces(digitCount) + "_" + nextDivisible;
-        String secondBlockLine = addSpaces(digitCount + 1) + (nextDivisible - nextDivisible % divisor);
-        String thirdBlockLine = addSpaces(digitCount + 1) + "--";
+        String firstBlockLine = addSpaces(spaceCount) + "_" + nextDivisible;
+        String secondBlockLine = addSpaces(spaceCount + 1) + (nextDivisible - nextDivisible % divisor);
+        String thirdBlockLine = addSpaces(spaceCount + 1) + "--";
         return firstBlockLine + NEXT_LINE + secondBlockLine + NEXT_LINE + thirdBlockLine + NEXT_LINE;
     }
 
-    private String getLastBlockString(int absDivisible, int nextDivisible) {
+    private String getLastDivisionBlock(int absDivisible, int nextDivisible) {
 
         int absDivisibleLength = getDigitsCount(absDivisible);
         int nextDivisibleLength = getDigitsCount(nextDivisible);
