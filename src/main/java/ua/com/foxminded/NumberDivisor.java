@@ -1,5 +1,6 @@
 package ua.com.foxminded;
 
+
 public class NumberDivisor {
 
     private static final String NEXT_LINE = "\n";
@@ -13,22 +14,25 @@ public class NumberDivisor {
         int absDivisible = Math.abs(divisible);
         int absDivisor = Math.abs(divisor);
 
-        return buildHeadOfDivision(absDivisible, absDivisor)
-            .append(getTailOfDivision(absDivisible, absDivisor)).toString();
+        IntermediateDivisionResult intermediateResult = buildHeadOfDivision(absDivisible, absDivisor);
+        return intermediateResult.getDivisionString().append(getTailOfDivision(intermediateResult, absDivisible, absDivisor)).toString();
     }
 
-    private StringBuilder buildHeadOfDivision(int absDivisible, int absDivisor) {
+    private IntermediateDivisionResult buildHeadOfDivision(int absDivisible, int absDivisor) {
 
         StringBuilder firstString = buildFirstString(absDivisible, absDivisor);
-        String secondString = buildSecondString(absDivisible, absDivisor);
+        IntermediateDivisionResult secondDivisionResult = buildSecondString(absDivisible, absDivisor);
         StringBuilder thirdString = buildThirdString(absDivisible, absDivisor);
-
-        return firstString
-            .append(NEXT_LINE)
-            .append(secondString)
-            .append(NEXT_LINE)
-            .append(thirdString)
-            .append(NEXT_LINE);
+        return new IntermediateDivisionResult(
+            secondDivisionResult.getRemainder(),
+            secondDivisionResult.getRemainder(),
+            firstString
+                .append(NEXT_LINE)
+                .append(secondDivisionResult.getDivisionString())
+                .append(NEXT_LINE)
+                .append(thirdString)
+                .append(NEXT_LINE)
+        );
     }
 
     private StringBuilder buildFirstString(int divisible, int divisor) {
@@ -38,11 +42,30 @@ public class NumberDivisor {
         return firstString;
     }
 
-    private String buildSecondString(int absDivisible, int absDivisor) {
+    private IntermediateDivisionResult buildSecondString(int absDivisible, int absDivisor) {
 
-        IntermediateDivisionResult divisionResult = new IntermediateDivisionResult(absDivisible, absDivisor);
+        StringBuilder secondString = new StringBuilder(" ");
 
-        return divisionResult.getDivisionString();
+        int divisibleDigitsCount = getDigitsCount(absDivisible);
+        int nextDivisible = 0;
+        int digitCount = 0;
+        int secondNumber;
+
+        while (nextDivisible < absDivisor) {
+
+            if (digitCount == divisibleDigitsCount) {
+                break;
+            }
+            nextDivisible = addNextDigit(nextDivisible, digitCount, absDivisible);
+            digitCount++;
+        }
+        int remainder = nextDivisible % absDivisor;
+        secondNumber = nextDivisible - remainder;
+        secondString.append(secondNumber);
+        secondString.append(addSpacesToLine(String.valueOf(secondNumber), absDivisible));
+        secondString.append("|-----");
+
+        return new IntermediateDivisionResult(remainder, digitCount, secondString);
     }
 
     private StringBuilder buildThirdString(int absDivisible, int absDivisor) {
@@ -53,9 +76,7 @@ public class NumberDivisor {
         return thirdString;
     }
 
-    private StringBuilder getTailOfDivision(int absDivisible, int absDivisor) {
-
-        IntermediateDivisionResult divisionResult = new IntermediateDivisionResult(absDivisible, absDivisor);
+    private StringBuilder getTailOfDivision(IntermediateDivisionResult divisionResult, int absDivisible, int absDivisor) {
 
         StringBuilder resultTailString = new StringBuilder();
 
