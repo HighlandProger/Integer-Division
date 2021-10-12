@@ -112,4 +112,37 @@ class NumberDivisorTest {
         assertEquals(expectedNumber, actualNumber);
     }
 
+    @Test
+    void getDigitsCount_shouldReturnCountOfDigitsInNumber() {
+        NumberDivisor numberDivisor = new NumberDivisor();
+
+        int number = 432325345;
+        int actualDigitsCount = numberDivisor.getDigitsCount(number);
+        int expectedDigitsCount = 9;
+
+        assertEquals(expectedDigitsCount, actualDigitsCount);
+    }
+
+    @Test
+    void getDigitsCount_shouldReturnOneFromZero() {
+        NumberDivisor numberDivisor = new NumberDivisor();
+
+        int number = 0;
+        int actualDigitsCount = numberDivisor.getDigitsCount(number);
+        int expectedDigitsCount = 1;
+
+        assertEquals(expectedDigitsCount, actualDigitsCount);
+    }
+
+    @Test
+    void getDigitsCount_shouldReturnCorrectCountOfDigitsFromNegativeNumber() {
+        NumberDivisor numberDivisor = new NumberDivisor();
+
+        int number = -52341;
+        int actualDigitsCount = numberDivisor.getDigitsCount(number);
+        int expectedDigitsCount = 5;
+
+        assertEquals(expectedDigitsCount, actualDigitsCount);
+    }
+
 }
