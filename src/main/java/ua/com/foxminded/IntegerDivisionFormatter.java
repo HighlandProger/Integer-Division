@@ -70,8 +70,9 @@ public class IntegerDivisionFormatter {
 
     private StringBuilder buildThirdString(int absDividend, int absDivisor) {
 
-        StringBuilder thirdString = new StringBuilder(" -");
-        thirdString.append(addSpaces(getDigitsCount(absDividend) - 1))
+        StringBuilder thirdString = new StringBuilder(" ");
+        thirdString.append(getDashesByDigitCount(getDigitsCount(absDivisor)));
+        thirdString.append(addSpaces(getDigitsCount(absDividend) - getDigitsCount(absDivisor)))
             .append("|").append(absDividend / absDivisor);
         return thirdString;
     }
@@ -115,6 +116,15 @@ public class IntegerDivisionFormatter {
         return builder.toString();
     }
 
+    private String getDashesByDigitCount(int digitCount) {
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < digitCount; i++) {
+            builder.append("-");
+        }
+        return builder.toString();
+    }
+
     private int[] splitIntoDigits(int number) {
 
         int digitsCount = getDigitsCount(number);
@@ -149,7 +159,7 @@ public class IntegerDivisionFormatter {
 
         String firstBlockLine = addSpaces(spacesCount) + "_" + nextDividend;
         String secondBlockLine = addSpaces(spacesCount + 1) + (nextDividend - nextDividend % divisor);
-        String thirdBlockLine = addSpaces(spacesCount + 1) + "--";
+        String thirdBlockLine = addSpaces(spacesCount + 1) + getDashesByDigitCount(getDigitsCount(nextDividend));
         return firstBlockLine + NEXT_LINE + secondBlockLine + NEXT_LINE + thirdBlockLine + NEXT_LINE;
     }
 

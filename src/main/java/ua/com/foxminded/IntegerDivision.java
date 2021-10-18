@@ -10,5 +10,6 @@ public class IntegerDivision {
         IntegerDivisionFormatter integerDivisionFormatter = new IntegerDivisionFormatter();
 
         System.out.println(integerDivisionFormatter.getDivisionString(dividend, divisor));
+
     }
 }

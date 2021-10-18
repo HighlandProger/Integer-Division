@@ -7,79 +7,77 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class IntegerDivisionFormatterTest {
 
-    IntegerDivisionFormatter formatter = new IntegerDivisionFormatter();
-    private String expectedExceptionString;
-    private String actualExceptionString;
+    private final IntegerDivisionFormatter formatter = new IntegerDivisionFormatter();
     private String expectedString;
     private String actualString;
 
     @Test
-    void getDivisionString(){
+    void getDivisionString() {
         actualString = formatter.getDivisionString(24532, 23);
         expectedString = "_24532|23\n" +
             " 23   |-----\n" +
-            " -    |1066\n" +
+            " --   |1066\n" +
             " _153\n" +
             "  138\n" +
-            "  --\n" +
+            "  ---\n" +
             "  _152\n" +
             "   138\n" +
-            "   --\n" +
+            "   ---\n" +
             "    14";
 
         assertEquals(actualString, expectedString);
     }
 
     @Test
-    void getDivisionString_whenDivideByZero(){
+    void getDivisionString_shouldThrowIllegalArgumentException_whenDivideByZero() {
         Exception exception = assertThrows(IllegalArgumentException.class,
             () -> formatter.getDivisionString(24532, 0));
 
-        expectedExceptionString = "You can't divide by zero";
-        actualExceptionString = exception.getMessage();
+        String expectedExceptionString = "You can't divide by zero";
+        String actualExceptionString = exception.getMessage();
 
         assertEquals(actualExceptionString, expectedExceptionString);
     }
 
     @Test
-    void getDivisionString_whenDivideZero(){
+    void getDivisionString_whenDivideZero() {
         actualString = formatter.getDivisionString(0, 23);
         expectedString = "_0|23\n" +
             " 0|-----\n" +
-            " -|0\n" +
+            " --|0\n" +
             " 0";
 
         assertEquals(actualString, expectedString);
     }
 
     @Test
-    void getDivisionString_whenDividendLessThanDivisor(){
+    void getDivisionString_whenDividendLessThanDivisor() {
         actualString = formatter.getDivisionString(26, 30);
         expectedString = "_26|30\n" +
             " 0 |-----\n" +
-            " - |0\n" +
+            " --|0\n" +
             " 26";
 
         assertEquals(actualString, expectedString);
     }
 
     @Test
-    void getDivisionString_whenDividendEqualsDivisor(){
+    void getDivisionString_whenDividendEqualsDivisor() {
         actualString = formatter.getDivisionString(14, 14);
         expectedString = "_14|14\n" +
             " 14|-----\n" +
-            " - |1\n" +
+            " --|1\n" +
             "  0";
 
         assertEquals(actualString, expectedString);
     }
 
     @Test
-    void getDivisionString_whenDivisionWithoutRemainder(){
+    void getDivisionString_whenDivisionWithoutRemainder() {
         actualString = formatter.getDivisionString(52331, 43);
         expectedString = "_52331|43\n" +
             " 43   |-----\n" +
-            " -    |1217\n" +
+            " --   |1217\n" +
             " _93\n" +
             "  86\n" +
             "  --\n" +
@@ -88,55 +86,55 @@ class IntegerDivisionFormatterTest {
             "   --\n" +
             "  _301\n" +
             "   301\n" +
-            "   --\n" +
+            "   ---\n" +
             "     0";
 
         assertEquals(actualString, expectedString);
     }
 
     @Test
-    void getDivisionString_whenDivisionWithRemainder(){
+    void getDivisionString_whenDivisionWithRemainder() {
         actualString = formatter.getDivisionString(634521, 52);
         expectedString = "_634521|52\n" +
             " 52    |-----\n" +
-            " -     |12202\n" +
+            " --    |12202\n" +
             "_114\n" +
             " 104\n" +
-            " --\n" +
+            " ---\n" +
             " _105\n" +
             "  104\n" +
-            "  --\n" +
+            "  ---\n" +
             "   _121\n" +
             "    104\n" +
-            "    --\n" +
+            "    ---\n" +
             "     17";
 
         assertEquals(actualString, expectedString);
     }
 
     @Test
-    void getDivisionString_whenDividendAndDivisorNegative(){
+    void getDivisionString_whenDividendAndDivisorNegative() {
         actualString = formatter.getDivisionString(-42341, -63);
         expectedString = "_42341|63\n" +
             " 378  |-----\n" +
-            " -    |672\n" +
+            " --   |672\n" +
             " _454\n" +
             "  441\n" +
-            "  --\n" +
+            "  ---\n" +
             "  _131\n" +
             "   126\n" +
-            "   --\n" +
+            "   ---\n" +
             "     5";
 
         assertEquals(actualString, expectedString);
     }
 
     @Test
-    void getDivisionString_whenDividendNegative(){
+    void getDivisionString_whenDividendNegative() {
         actualString = formatter.getDivisionString(-52341, 12);
         expectedString = "_52341|12\n" +
             " 48   |-----\n" +
-            " -    |4361\n" +
+            " --   |4361\n" +
             " _43\n" +
             "  36\n" +
             "  --\n" +
@@ -152,17 +150,17 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_whenDivisorNegative(){
+    void getDivisionString_whenDivisorNegative() {
         actualString = formatter.getDivisionString(42341, -63);
         expectedString = "_42341|63\n" +
             " 378  |-----\n" +
-            " -    |672\n" +
+            " --   |672\n" +
             " _454\n" +
             "  441\n" +
-            "  --\n" +
+            "  ---\n" +
             "  _131\n" +
             "   126\n" +
-            "   --\n" +
+            "   ---\n" +
             "     5";
 
         assertEquals(actualString, expectedString);
@@ -209,5 +207,4 @@ class IntegerDivisionFormatterTest {
 
         assertEquals(expectedDigitsCount, actualDigitsCount);
     }
-
 }
