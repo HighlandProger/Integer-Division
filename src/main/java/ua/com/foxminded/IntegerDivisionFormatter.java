@@ -1,7 +1,7 @@
 package ua.com.foxminded;
 
 
-public class NumberDivisor {
+public class IntegerDivisionFormatter {
 
     private static final String NEXT_LINE = "\n";
 
@@ -25,7 +25,7 @@ public class NumberDivisor {
         StringBuilder thirdString = buildThirdString(absDividend, absDivisor);
         return new IntermediateDivisionResult(
             secondDivisionResult.getRemainder(),
-            secondDivisionResult.getLastDigit(),
+            secondDivisionResult.getLastDigitNumber(),
             firstString
                 .append(NEXT_LINE)
                 .append(secondDivisionResult.getDivisionString())
@@ -61,7 +61,6 @@ public class NumberDivisor {
         int secondNumber = nextDividend - remainder;
 
         StringBuilder secondString = new StringBuilder(" ");
-
         secondString.append(secondNumber);
         secondString.append(addSpaces(digitsCount - getDigitsCount(secondNumber)));
         secondString.append("|-----");
@@ -82,8 +81,8 @@ public class NumberDivisor {
         StringBuilder resultTailString = new StringBuilder();
 
         int nextDividend = divisionResult.getRemainder();
-        int digitCount = divisionResult.getLastDigit();
-        int spaceCount;
+        int digitCount = divisionResult.getLastDigitNumber();
+        int spacesCount;
         int divisibleDigitsCount = getDigitsCount(absDividend);
 
         while (digitCount < divisibleDigitsCount) {
@@ -97,8 +96,8 @@ public class NumberDivisor {
                 digitCount++;
             }
 
-            spaceCount = digitCount - getDigitsCount(nextDividend);
-            resultTailString.append(getNextDivisionBlock(nextDividend, absDivisor, spaceCount));
+            spacesCount = digitCount - getDigitsCount(nextDividend);
+            resultTailString.append(getNextDivisionBlock(nextDividend, absDivisor, spacesCount));
             nextDividend = nextDividend % absDivisor;
         }
 
@@ -143,17 +142,14 @@ public class NumberDivisor {
     protected int addNextDigit(int digit, int digitCount, int dividend) {
 
         int[] digits = splitIntoDigits(dividend);
-        if (digitCount > digits.length - 1) {
-            throw new ArrayIndexOutOfBoundsException("No more digits in divisible");
-        }
         return (digit * 10) + digits[digitCount];
     }
 
-    private String getNextDivisionBlock(int nextDividend, int divisor, int spaceCount) {
+    private String getNextDivisionBlock(int nextDividend, int divisor, int spacesCount) {
 
-        String firstBlockLine = addSpaces(spaceCount) + "_" + nextDividend;
-        String secondBlockLine = addSpaces(spaceCount + 1) + (nextDividend - nextDividend % divisor);
-        String thirdBlockLine = addSpaces(spaceCount + 1) + "--";
+        String firstBlockLine = addSpaces(spacesCount) + "_" + nextDividend;
+        String secondBlockLine = addSpaces(spacesCount + 1) + (nextDividend - nextDividend % divisor);
+        String thirdBlockLine = addSpaces(spacesCount + 1) + "--";
         return firstBlockLine + NEXT_LINE + secondBlockLine + NEXT_LINE + thirdBlockLine + NEXT_LINE;
     }
 

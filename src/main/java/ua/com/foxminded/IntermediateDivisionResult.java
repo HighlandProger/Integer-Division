@@ -4,11 +4,11 @@ public class IntermediateDivisionResult {
 
     private final StringBuilder divisionString;
     private final int remainder;
-    private final int lastDigit;
+    private final int lastDigitNumber;
 
-    IntermediateDivisionResult(int remainder, int digitCount, StringBuilder divisionString) {
+    IntermediateDivisionResult(int remainder, int lastDigitNumber, StringBuilder divisionString) {
         this.remainder = remainder;
-        this.lastDigit = digitCount;
+        this.lastDigitNumber = lastDigitNumber;
         this.divisionString = divisionString;
     }
 
@@ -20,8 +20,8 @@ public class IntermediateDivisionResult {
         return remainder;
     }
 
-    public int getLastDigit() {
-        return lastDigit;
+    public int getLastDigitNumber() {
+        return lastDigitNumber;
     }
 
 }

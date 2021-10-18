@@ -7,8 +7,8 @@ public class IntegerDivision {
         int dividend = 24532;
         int divisor = 23;
 
-        NumberDivisor numberDivisor = new NumberDivisor();
+        IntegerDivisionFormatter integerDivisionFormatter = new IntegerDivisionFormatter();
 
-        System.out.println(numberDivisor.getDivisionString(dividend, divisor));
+        System.out.println(integerDivisionFormatter.getDivisionString(dividend, divisor));
     }
 }
