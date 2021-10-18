@@ -40,11 +40,11 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_whenDivideZero() {
+    void getDivisionString_whenDividendIsZero() {
         actualString = formatter.getDivisionString(0, 23);
         expectedString = "_0|23\n" +
             " 0|-\n" +
-            " --|0\n" +
+            " -|0\n" +
             " 0";
 
         assertEquals(expectedString, actualString);
@@ -73,7 +73,7 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_whenDivisionWithoutRemainder() {
+    void getDivisionString_withoutRemainder() {
         actualString = formatter.getDivisionString(52331, 43);
         expectedString = "_52331|43\n" +
             " 43   |----\n" +
@@ -93,7 +93,7 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_whenDivisionWithRemainder() {
+    void getDivisionString_withRemainder() {
         actualString = formatter.getDivisionString(634521, 52);
         expectedString = "_634521|52\n" +
             " 52    |-----\n" +
@@ -113,11 +113,11 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_whenDividendAndDivisorNegative() {
+    void getDivisionString_whenDividendAndDivisorAreBothNegative() {
         actualString = formatter.getDivisionString(-42341, -63);
         expectedString = "_42341|63\n" +
             " 378  |---\n" +
-            " --   |672\n" +
+            " ---  |672\n" +
             " _454\n" +
             "  441\n" +
             "  ---\n" +
@@ -130,7 +130,7 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_whenDividendNegative() {
+    void getDivisionString_whenDividendIsNegative() {
         actualString = formatter.getDivisionString(-52341, 12);
         expectedString = "_52341|12\n" +
             " 48   |----\n" +
@@ -150,11 +150,11 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_whenDivisorNegative() {
+    void getDivisionString_whenDivisorIsNegative() {
         actualString = formatter.getDivisionString(42341, -63);
         expectedString = "_42341|63\n" +
             " 378  |---\n" +
-            " --   |672\n" +
+            " ---  |672\n" +
             " _454\n" +
             "  441\n" +
             "  ---\n" +
@@ -199,7 +199,7 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDigitsCount_whenNumberNegative() {
+    void getDigitsCount_whenNumberIsNegative() {
 
         int number = -52341;
         int actualDigitsCount = formatter.getDigitsCount(number);

@@ -4,6 +4,8 @@ package ua.com.foxminded;
 public class IntegerDivisionFormatter {
 
     private static final String NEXT_LINE = "\n";
+    private static final String SPACE = " ";
+    private static final String DASH = "-";
 
     public String getDivisionString(int dividend, int divisor) {
 
@@ -22,7 +24,7 @@ public class IntegerDivisionFormatter {
 
         StringBuilder firstString = buildFirstString(absDividend, absDivisor);
         IntermediateDivisionResult secondDivisionResult = buildSecondString(absDividend, absDivisor);
-        StringBuilder thirdString = buildThirdString(absDividend, absDivisor);
+        StringBuilder thirdString = buildThirdString(absDividend, absDivisor, secondDivisionResult.getLastDigitNumber());
         return new IntermediateDivisionResult(
             secondDivisionResult.getRemainder(),
             secondDivisionResult.getLastDigitNumber(),
@@ -64,16 +66,16 @@ public class IntegerDivisionFormatter {
         secondString.append(secondNumber);
         secondString.append(addSpaces(digitsCount - getDigitsCount(secondNumber)));
         secondString.append("|");
-        secondString.append(getDashesByDigitCount(getDigitsCount(absDividend/absDivisor)));
+        secondString.append(getDashesByDigitCount(getDigitsCount(absDividend / absDivisor)));
 
         return new IntermediateDivisionResult(remainder, digitNumber, secondString);
     }
 
-    private StringBuilder buildThirdString(int absDividend, int absDivisor) {
+    private StringBuilder buildThirdString(int absDividend, int absDivisor, int digitNumber) {
 
         StringBuilder thirdString = new StringBuilder(" ");
-        thirdString.append(getDashesByDigitCount(getDigitsCount(absDivisor)));
-        thirdString.append(addSpaces(getDigitsCount(absDividend) - getDigitsCount(absDivisor)))
+        thirdString.append(getDashesByDigitCount(digitNumber));
+        thirdString.append(addSpaces(getDigitsCount(absDividend) - digitNumber))
             .append("|").append(absDividend / absDivisor);
         return thirdString;
     }
@@ -112,7 +114,7 @@ public class IntegerDivisionFormatter {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            builder.append(" ");
+            builder.append(SPACE);
         }
         return builder.toString();
     }
@@ -121,7 +123,7 @@ public class IntegerDivisionFormatter {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < digitCount; i++) {
-            builder.append("-");
+            builder.append(DASH);
         }
         return builder.toString();
     }
