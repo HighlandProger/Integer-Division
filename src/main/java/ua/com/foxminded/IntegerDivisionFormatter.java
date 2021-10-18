@@ -63,7 +63,8 @@ public class IntegerDivisionFormatter {
         StringBuilder secondString = new StringBuilder(" ");
         secondString.append(secondNumber);
         secondString.append(addSpaces(digitsCount - getDigitsCount(secondNumber)));
-        secondString.append("|-----");
+        secondString.append("|");
+        secondString.append(getDashesByDigitCount(getDigitsCount(absDividend/absDivisor)));
 
         return new IntermediateDivisionResult(remainder, digitNumber, secondString);
     }

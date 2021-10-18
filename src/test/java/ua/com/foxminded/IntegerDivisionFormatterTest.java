@@ -15,7 +15,7 @@ class IntegerDivisionFormatterTest {
     void getDivisionString() {
         actualString = formatter.getDivisionString(24532, 23);
         expectedString = "_24532|23\n" +
-            " 23   |-----\n" +
+            " 23   |----\n" +
             " --   |1066\n" +
             " _153\n" +
             "  138\n" +
@@ -25,7 +25,7 @@ class IntegerDivisionFormatterTest {
             "   ---\n" +
             "    14";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
@@ -43,40 +43,40 @@ class IntegerDivisionFormatterTest {
     void getDivisionString_whenDivideZero() {
         actualString = formatter.getDivisionString(0, 23);
         expectedString = "_0|23\n" +
-            " 0|-----\n" +
+            " 0|-\n" +
             " --|0\n" +
             " 0";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
     void getDivisionString_whenDividendLessThanDivisor() {
         actualString = formatter.getDivisionString(26, 30);
         expectedString = "_26|30\n" +
-            " 0 |-----\n" +
+            " 0 |-\n" +
             " --|0\n" +
             " 26";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
     void getDivisionString_whenDividendEqualsDivisor() {
         actualString = formatter.getDivisionString(14, 14);
         expectedString = "_14|14\n" +
-            " 14|-----\n" +
+            " 14|-\n" +
             " --|1\n" +
             "  0";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
     void getDivisionString_whenDivisionWithoutRemainder() {
         actualString = formatter.getDivisionString(52331, 43);
         expectedString = "_52331|43\n" +
-            " 43   |-----\n" +
+            " 43   |----\n" +
             " --   |1217\n" +
             " _93\n" +
             "  86\n" +
@@ -89,7 +89,7 @@ class IntegerDivisionFormatterTest {
             "   ---\n" +
             "     0";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
@@ -109,14 +109,14 @@ class IntegerDivisionFormatterTest {
             "    ---\n" +
             "     17";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
     void getDivisionString_whenDividendAndDivisorNegative() {
         actualString = formatter.getDivisionString(-42341, -63);
         expectedString = "_42341|63\n" +
-            " 378  |-----\n" +
+            " 378  |---\n" +
             " --   |672\n" +
             " _454\n" +
             "  441\n" +
@@ -126,14 +126,14 @@ class IntegerDivisionFormatterTest {
             "   ---\n" +
             "     5";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
     void getDivisionString_whenDividendNegative() {
         actualString = formatter.getDivisionString(-52341, 12);
         expectedString = "_52341|12\n" +
-            " 48   |-----\n" +
+            " 48   |----\n" +
             " --   |4361\n" +
             " _43\n" +
             "  36\n" +
@@ -146,14 +146,14 @@ class IntegerDivisionFormatterTest {
             "    --\n" +
             "     9";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
     void getDivisionString_whenDivisorNegative() {
         actualString = formatter.getDivisionString(42341, -63);
         expectedString = "_42341|63\n" +
-            " 378  |-----\n" +
+            " 378  |---\n" +
             " --   |672\n" +
             " _454\n" +
             "  441\n" +
@@ -163,7 +163,7 @@ class IntegerDivisionFormatterTest {
             "   ---\n" +
             "     5";
 
-        assertEquals(actualString, expectedString);
+        assertEquals(expectedString, actualString);
     }
 
     @Test
