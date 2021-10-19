@@ -29,7 +29,7 @@ class IntegerDivisionFormatterTest {
     }
 
     @Test
-    void getDivisionString_shouldThrowIllegalArgumentException_whenDivideByZero() {
+    void getDivisionString_shouldThrowIllegalArgumentException_whenDividerIsZero() {
         Exception exception = assertThrows(IllegalArgumentException.class,
             () -> formatter.getDivisionString(24532, 0));
 

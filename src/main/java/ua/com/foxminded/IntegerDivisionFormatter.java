@@ -64,9 +64,9 @@ public class IntegerDivisionFormatter {
 
         StringBuilder secondString = new StringBuilder(" ");
         secondString.append(secondNumber);
-        secondString.append(addSpaces(digitsCount - getDigitsCount(secondNumber)));
+        secondString.append(getSymbolsByDigitCount(SPACE, digitsCount - getDigitsCount(secondNumber)));
         secondString.append("|");
-        secondString.append(getDashesByDigitCount(getDigitsCount(absDividend / absDivisor)));
+        secondString.append(getSymbolsByDigitCount(DASH, getDigitsCount(absDividend / absDivisor)));
 
         return new IntermediateDivisionResult(remainder, digitNumber, secondString);
     }
@@ -74,8 +74,8 @@ public class IntegerDivisionFormatter {
     private StringBuilder buildThirdString(int absDividend, int absDivisor, int digitNumber) {
 
         StringBuilder thirdString = new StringBuilder(" ");
-        thirdString.append(getDashesByDigitCount(digitNumber));
-        thirdString.append(addSpaces(getDigitsCount(absDividend) - digitNumber))
+        thirdString.append(getSymbolsByDigitCount(DASH, digitNumber));
+        thirdString.append(getSymbolsByDigitCount(SPACE, getDigitsCount(absDividend) - digitNumber))
             .append("|").append(absDividend / absDivisor);
         return thirdString;
     }
@@ -110,20 +110,11 @@ public class IntegerDivisionFormatter {
         return resultTailString;
     }
 
-    private String addSpaces(int count) {
+    private String getSymbolsByDigitCount(String symbol, int count) {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            builder.append(SPACE);
-        }
-        return builder.toString();
-    }
-
-    private String getDashesByDigitCount(int digitCount) {
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < digitCount; i++) {
-            builder.append(DASH);
+            builder.append(symbol);
         }
         return builder.toString();
     }
@@ -160,9 +151,9 @@ public class IntegerDivisionFormatter {
 
     private String getNextDivisionBlock(int nextDividend, int divisor, int spacesCount) {
 
-        String firstBlockLine = addSpaces(spacesCount) + "_" + nextDividend;
-        String secondBlockLine = addSpaces(spacesCount + 1) + (nextDividend - nextDividend % divisor);
-        String thirdBlockLine = addSpaces(spacesCount + 1) + getDashesByDigitCount(getDigitsCount(nextDividend));
+        String firstBlockLine = getSymbolsByDigitCount(SPACE, spacesCount) + "_" + nextDividend;
+        String secondBlockLine = getSymbolsByDigitCount(SPACE, spacesCount + 1) + (nextDividend - nextDividend % divisor);
+        String thirdBlockLine = getSymbolsByDigitCount(SPACE, spacesCount + 1) + getSymbolsByDigitCount(DASH, getDigitsCount(nextDividend));
         return firstBlockLine + NEXT_LINE + secondBlockLine + NEXT_LINE + thirdBlockLine + NEXT_LINE;
     }
 
@@ -177,7 +168,7 @@ public class IntegerDivisionFormatter {
 
         int resultLength = absDividendLength - nextDividendLength + 1;
 
-        return addSpaces(resultLength) + nextDividend;
+        return getSymbolsByDigitCount(SPACE, resultLength) + nextDividend;
     }
 
 }
